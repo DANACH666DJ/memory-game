@@ -10,6 +10,12 @@
  *   - add each card's HTML to the page
  */
 
+ // add event delegation to ul tag
+const allCards = document.querySelector(".deck");
+let card = document.getElementsByClassName("card");
+let cards = [...card];
+let openCards = []; // number of open cards 
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -25,11 +31,38 @@ function shuffle(array) {
     return array;
 }
 
-let allCards = document.querySelector(".deck");
+window.onload = initGame();
 
+function initGame(){
+   let shuffledCards = shuffle(cards);
+   for (let i= 0; i < shuffledCards.length; i++){
+      [].forEach.call(shuffledCards, function(item){
+        allCards.appendChild(item);
+      });
+   }
+}
+
+
+// MINUTO 28 VIDEO
 allCards.addEventListener("click",(e) => {
-    if (e.target) {
-        e.target.classList.add("open", "show");
+    if (!e.target.classList.contains('open', 'show')) {
+        openCards.push(e.target);
+        e.target.classList.add('open', 'show');
+        console.log(`Open Cards: ${openCards.length}`);
+
+        // check if they match
+
+        // if card don't match go away
+        if(openCards.length === 2) {
+            setTimeout(() => {
+                openCards.forEach(card => {
+                    card.classList.remove('open', 'show');
+                });
+                openCards = [];
+            }, 600);
+
+        }
+        
       }
 });
 

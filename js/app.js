@@ -15,6 +15,8 @@ const allCards = document.querySelector(".deck");
 let card = document.getElementsByClassName("card");
 let cards = [...card];
 let openCards = []; // number of open cards 
+let moveCounter = 0;
+document.querySelector(".moves").textContent= moveCounter
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -54,6 +56,17 @@ allCards.addEventListener("click",(e) => {
 
         // if card don't match go away
         if(openCards.length === 2) {
+            // count number of movements
+            moveCounter+=1;
+            document.querySelector(".moves").textContent= moveCounter;
+            if(Array.prototype.slice.call( openCards[0].children )[0].className ===
+            Array.prototype.slice.call( openCards[1].children )[0].className) {
+                openCards[0].classList.add("match");
+                openCards[1].classList.add("match");
+                openCards[0].classList.remove("show", "open");
+                openCards[1].classList.remove("show", "open");
+                openCards = [];
+            }
             setTimeout(() => {
                 openCards.forEach(card => {
                     card.classList.remove('open', 'show');

@@ -16,7 +16,10 @@ let card = document.getElementsByClassName("card");
 let cards = [...card];
 let openCards = []; // number of open cards 
 let moveCounter = 0;
-document.querySelector(".moves").textContent= moveCounter
+let matchedCards = 0;
+document.querySelector(".moves").textContent= moveCounter;
+
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -33,15 +36,42 @@ function shuffle(array) {
     return array;
 }
 
-window.onload = initGame();
+function resetGame() {
+    document.querySelector(".modal").style.display ="none";
+    location.reload();
+}
 
 function initGame(){
-   let shuffledCards = shuffle(cards);
-   for (let i= 0; i < shuffledCards.length; i++){
-      [].forEach.call(shuffledCards, function(item){
-        allCards.appendChild(item);
-      });
-   }
+    let shuffledCards = shuffle(cards);
+    for (let i= 0; i < shuffledCards.length; i++){
+       [].forEach.call(shuffledCards, function(item){
+         allCards.appendChild(item);
+       });
+    }
+ }
+ 
+
+window.onload = initGame();
+
+
+function counters() {
+    moveCounter+=1;
+    document.querySelector(".moves").textContent= moveCounter;
+    if (moveCounter > 8 && moveCounter < 12){
+        for( i= 0; i < 3; i++){
+            if(i > 1){
+                document.getElementsByClassName("fa-star")[i].style.visibility = "collapse";
+            }
+        }
+    }
+    else if (moveCounter > 13){
+        for( i= 0; i < 3; i++){
+            if(i > 0){
+                document.getElementsByClassName("fa-star")[i].style.visibility = "collapse";
+            }
+        }
+    }
+    
 }
 
 
@@ -50,32 +80,28 @@ allCards.addEventListener("click",(e) => {
     if (!e.target.classList.contains('open', 'show')) {
         openCards.push(e.target);
         e.target.classList.add('open', 'show');
-        console.log(`Open Cards: ${openCards.length}`);
-
-        // check if they match
-
-        // if card don't match go away
         if(openCards.length === 2) {
-            // count number of movements
-            moveCounter+=1;
-            document.querySelector(".moves").textContent= moveCounter;
-            if(Array.prototype.slice.call( openCards[0].children )[0].className ===
-            Array.prototype.slice.call( openCards[1].children )[0].className) {
-                openCards[0].classList.add("match");
-                openCards[1].classList.add("match");
-                openCards[0].classList.remove("show", "open");
-                openCards[1].classList.remove("show", "open");
-                openCards = [];
-            }
-            setTimeout(() => {
+            counters();
+            if(openCards[0].children[0].className === openCards[1].children[0].className) {
+                matchedCards += openCards.length;
+                console.log(matchedCards);
+                if(matchedCards === 16) {
+                    document.querySelector(".modal").style.display ="block";
+                }
                 openCards.forEach(card => {
                     card.classList.remove('open', 'show');
+                    card.classList.add('match');
                 });
                 openCards = [];
-            }, 600);
-
+            } else {
+                setTimeout(() => {
+                    openCards.forEach(card => {
+                        card.classList.remove('open', 'show');
+                    });
+                    openCards = [];
+                }, 600);
+            }
         }
-        
       }
 });
 

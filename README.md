@@ -7,11 +7,10 @@
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+The game is divided mainly into 3 app.js files where we will give interactivity to our game. App.css where we will give styles to our game and index.html where we structure all the elements that we want our game to show.
 
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+To start the game you must press on any card and when searching for the first match of both cards, the game time will begin.
+Once you find all the available pairs, the user will be informed of the time it has taken to finish the game and if he wants to play again.
 
 ## Contributing
 

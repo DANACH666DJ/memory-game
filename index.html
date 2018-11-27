@@ -22,7 +22,9 @@
         		<li><i class="fa fa-star"></i></li>
         	</ul>
 
-        	<span class="moves"></span> Moves
+            Moves: <span class="moves"></span><hr>
+            
+            Time: <span class="timer"></span> 
 
             <div class="restart" onclick="resetGame()">
         		<i class="fa fa-repeat"></i>
@@ -83,7 +85,15 @@
         <div class="modal">
             <div class="modal-content">
                 <h1>Congratulations, you won!</h1>
-                <p class="moves"></p>
+                <ul class="stars">
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                    <li><i class="fa fa-star"></i></li>
+                </ul>
+
+                Moves: <span class="movesD"></span><hr>
+            
+                Time: <span class="timerD"></span><hr>
                 <button type="button" class="btn btn-success" onclick="resetGame()">Play Again!</button>
             </div>
         </div>

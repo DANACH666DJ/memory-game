@@ -4,12 +4,15 @@ let cards = [...card];
 let openCards = [];
 let moveCounter = 0; 
 let matchedCards = 0;
+let second = 0, minute = 0, hour=0;
+let timer = document.querySelector(".timer");
+let interval;
 document.querySelector(".moves").textContent= moveCounter;
 
 
 // Shuffle all cards
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -35,6 +38,22 @@ function initGame(){
        });
     }
  }
+
+
+ function startTimer(){
+    interval = setInterval(function(){
+        timer.innerHTML = minute+" mins "+second+" secs";
+        second++;
+        if(second == 60){
+            minute++;
+            second = 0;
+        }
+        if(minute == 60){
+            hour++;
+            minute = 0;
+        }
+    },1000);
+}
  
 
 window.onload = initGame();
@@ -44,6 +63,12 @@ window.onload = initGame();
 function counters() {
     moveCounter+=1;
     document.querySelector(".moves").textContent= moveCounter;
+    if(moveCounter == 1){
+        second = 0;
+        minute = 0; 
+        hour = 0;
+        startTimer();
+    }
     if (moveCounter > 8 && moveCounter < 12){
         for( i= 0; i < 3; i++){
             if(i > 1){
@@ -72,6 +97,10 @@ allCards.addEventListener("click",(e) => {
                 matchedCards += openCards.length;
                 console.log(matchedCards);
                 if(matchedCards === 16) {
+                    document.querySelector(".movesD").textContent= moveCounter;
+                    document.querySelector(".timerD").textContent = minute+" mins "+second+" secs";
+                    timer.textContent = "0 mins 0 secs";
+                    clearInterval(interval);
                     document.querySelector(".modal").style.display ="block";
                 }
                 openCards.forEach(card => {
@@ -88,5 +117,5 @@ allCards.addEventListener("click",(e) => {
                 }, 600);
             }
         }
-      }
+    }
 });

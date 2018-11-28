@@ -88,15 +88,31 @@ function counters() {
 
 // Listening event for each card
 allCards.addEventListener("click",(e) => {
+    counters();
     if (!e.target.classList.contains('open', 'show')) {
         openCards.push(e.target);
         e.target.classList.add('open', 'show');
         if(openCards.length === 2) {
-            counters();
+            //counters();
             if(openCards[0].children[0].className === openCards[1].children[0].className) {
                 matchedCards += openCards.length;
                 console.log(matchedCards);
                 if(matchedCards === 16) {
+                    console.log("ESTRELLLAS VISIBLESSS");
+                    console.log(document.querySelectorAll(".fa-star")[2].style.visibility);
+                    document.querySelectorAll(".fa-star").forEach(star => {
+                        if(star.style.visibility === 'collapse'){
+                            console.log("Tenemos uno invisble");
+                        } else {
+                            let li = document.createElement("li");
+                            let i = document.createElement("i");
+                            i.className = "fa fa-star";
+                            li.appendChild(i);
+                            let ul = document.querySelector(".starsD");
+                            ul.appendChild(li);
+                        }
+                    });
+                    console.log("ESTRELLLAS VISIBLESSS");
                     document.querySelector(".movesD").textContent= moveCounter;
                     document.querySelector(".timerD").textContent = minute+" mins "+second+" secs";
                     timer.textContent = "0 mins 0 secs";

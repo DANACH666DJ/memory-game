@@ -6,7 +6,7 @@ let moveCounter = 0;
 let matchedCards = 0;
 let second = 0, minute = 0, hour=0;
 let timer = document.querySelector(".timer");
-let interval;
+let interval, controlTime;
 document.querySelector(".moves").textContent= moveCounter;
 
 
@@ -63,12 +63,6 @@ window.onload = initGame();
 function counters() {
     moveCounter+=1;
     document.querySelector(".moves").textContent= moveCounter;
-    if(moveCounter == 1){
-        second = 0;
-        minute = 0; 
-        hour = 0;
-        startTimer();
-    }
     if (moveCounter > 8 && moveCounter < 12){
         for( i= 0; i < 3; i++){
             if(i > 1){
@@ -88,18 +82,19 @@ function counters() {
 
 // Listening event for each card
 allCards.addEventListener("click",(e) => {
-    counters();
+    if (!controlTime){
+        controlTime = true;
+        startTimer();
+    }
+    
     if (!e.target.classList.contains('open', 'show')) {
         openCards.push(e.target);
         e.target.classList.add('open', 'show');
         if(openCards.length === 2) {
-            //counters();
+            counters();
             if(openCards[0].children[0].className === openCards[1].children[0].className) {
                 matchedCards += openCards.length;
-                console.log(matchedCards);
                 if(matchedCards === 16) {
-                    console.log("ESTRELLLAS VISIBLESSS");
-                    console.log(document.querySelectorAll(".fa-star")[2].style.visibility);
                     document.querySelectorAll(".fa-star").forEach(star => {
                         if(star.style.visibility === 'collapse'){
                             console.log("Tenemos uno invisble");
@@ -112,7 +107,6 @@ allCards.addEventListener("click",(e) => {
                             ul.appendChild(li);
                         }
                     });
-                    console.log("ESTRELLLAS VISIBLESSS");
                     document.querySelector(".movesD").textContent= moveCounter;
                     document.querySelector(".timerD").textContent = minute+" mins "+second+" secs";
                     timer.textContent = "0 mins 0 secs";
@@ -130,7 +124,7 @@ allCards.addEventListener("click",(e) => {
                         card.classList.remove('open', 'show');
                     });
                     openCards = [];
-                }, 600);
+                }, 400);
             }
         }
     }
